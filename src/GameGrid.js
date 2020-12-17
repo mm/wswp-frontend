@@ -10,16 +10,21 @@ import Game from "./Game";
  */
 function GameGrid(props) {
 
+    let gameComponents = props.gameData.map(game => {
+        return({
+            gameTitle: game['name'],
+            description: game['description'],
+            id: game['id'],
+            minPlayers: game['min_players'],
+            maxPlayers: game['max_players'],
+            isFree: !game['paid']
+        })
+    }).map(game => <Game data={game} key={game.id} />);
+
     return (
-        <Container maxWidth="90ch">
-            <SimpleGrid columns={4} spacing={2}>
-                <Game />
-                <Game />
-                <Game />
-                <Game />
-                <Game />
-                <Game />
-                <Game />
+        <Container maxWidth="100ch" marginTop="2rem">
+            <SimpleGrid minChildWidth="200px" spacing={5}>
+                {gameComponents}
             </SimpleGrid>
         </Container>
     )
