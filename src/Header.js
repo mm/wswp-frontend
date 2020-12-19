@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 
 import PickGameModal from "./PickGameModal";
+import SuggestGameModal from "./SuggestGameModal";
 
 /**
  * Header component for the entire page. Displays some information about
@@ -22,6 +23,7 @@ function Header() {
     return (
         <>
         <PickGameModal onClose={pickGame.onClose} isOpen={pickGame.isOpen} />
+        <SuggestGameModal onClose={suggestGame.onClose} isOpen={suggestGame.isOpen} />
         <Box bgColor="#9DD1F1" width="100%" padding="4">
             <Center>
                 <VStack spacing="1rem" color="#0D2035">
@@ -36,7 +38,7 @@ function Header() {
                     </Container>
                     <HStack>
                         <Button colorScheme="blue" onClick={pickGame.onOpen}>Pick a game for me</Button>
-                        <Button colorScheme="blue">Suggest a game</Button>
+                        <Button colorScheme="blue" onClick={suggestGame.onOpen}>Suggest a game</Button>
                     </HStack>
                 </VStack>
             </Center>

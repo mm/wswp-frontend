@@ -1,23 +1,29 @@
 import {React, useState} from "react";
 import { 
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button,
-    Input, FormControl, FormLabel, FormErrorMessage, FormHelperText, Text, NumberInputField, NumberInput,
+    Input, FormControl, FormLabel, Text, NumberInputField, NumberInput,
     NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Checkbox, Box
 } from "@chakra-ui/react";
 
 import {getRandomGame} from "./model";
 import Game from "./Game";
 
+/**
+ * Presents a modal to show a user a random game.
+ * @param {*} props 
+ */
 function PickGameModal(props) {
     // Pick up disclosure from parent:
     const { onClose, isOpen } = props;
 
-    // Make the modal the source of truth for state:
+    // Make the modal the source of truth for state (input elements):
     const [numberOfPlayers, setNumberOfPlayers] = useState(1);
     const handlePlayerChange = (event) => setNumberOfPlayers(event.target.value);
     const [freeOnly, setFreeOnly] = useState(false);
     const handleFreeOnlyChange = (event) => setFreeOnly(event.target.checked);
+
     const [isLoading, setIsLoading] = useState(false);
+    // To store information about a game the backend returned:
     const [game, setGame] = useState({});
     // For detecting if someone's asked for a random game already:
     const [triedOnce, setTriedOnce] = useState(false);
