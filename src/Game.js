@@ -10,11 +10,10 @@ function Game(props) {
 
     // Pull out necessary fields:
     const {gameTitle, description, minPlayers, maxPlayers, isFree} = props.data;
-
     let playerDescription = maxPlayers ? `${minPlayers}-${maxPlayers}` : `${minPlayers}+`;
 
     return (
-        <Box padding={2} maxW="sm" borderRadius="lg" borderWidth="2px">
+        <Box padding={2} borderRadius="lg" borderWidth="2px">
             <Flex direction="row" alignItems="baseline" fontSize="1.25rem">
                 <Box fontWeight="bold">
                     <Link href="google.com" isExternal>{gameTitle}</Link>

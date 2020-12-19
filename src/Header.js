@@ -2,8 +2,11 @@ import React from "react";
 
 import { 
     Box, Center, Heading, Text, VStack, HStack,
-    Container, Button, ButtonGroup
+    Container, Button, ButtonGroup,
+    useDisclosure
 } from "@chakra-ui/react";
+
+import PickGameModal from "./PickGameModal";
 
 /**
  * Header component for the entire page. Displays some information about
@@ -12,7 +15,13 @@ import {
  */
 function Header() {
 
+    // Disclosures for controlling visibility of the pick/suggest game modals:
+    const pickGame = useDisclosure();
+    const suggestGame = useDisclosure();
+
     return (
+        <>
+        <PickGameModal onClose={pickGame.onClose} isOpen={pickGame.isOpen} />
         <Box bgColor="#9DD1F1" width="100%" padding="4">
             <Center>
                 <VStack spacing="1rem" color="#0D2035">
@@ -26,15 +35,14 @@ function Header() {
                     </Text>
                     </Container>
                     <HStack>
-                        <Button colorScheme="blue">Pick a game for me</Button>
+                        <Button colorScheme="blue" onClick={pickGame.onOpen}>Pick a game for me</Button>
                         <Button colorScheme="blue">Suggest a game</Button>
                     </HStack>
                 </VStack>
             </Center>
         </Box>
+        </>
     )
-    
-
 }
 
 export default Header;
