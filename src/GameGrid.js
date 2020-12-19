@@ -22,7 +22,7 @@ function GameGrid(props) {
     }).map(game => <Game data={game} key={game.id} />);
 
     return (
-        <Container maxWidth="100ch" marginTop="2rem">
+        <Container maxWidth="100ch" marginTop={8}>
             <SimpleGrid minChildWidth="200px" spacing={5}>
                 {gameComponents}
             </SimpleGrid>
