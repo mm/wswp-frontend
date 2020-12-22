@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, ButtonGroup, HStack, Center} from "@chakra-ui/react";
+import {Button, HStack} from "@chakra-ui/react";
 
 /**
  * Component which renders all of the page-switching buttons.
@@ -17,7 +17,7 @@ function Paginator(props) {
             <Button 
                 key={i} 
                 colorScheme={colorScheme}
-                onClick={() => props.pageSetter(i) }
+                onClick={() => props.pageSwitchHandler(i) }
             >
                 {i}
             </Button>

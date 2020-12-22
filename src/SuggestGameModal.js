@@ -3,8 +3,8 @@ import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button,
     Input, FormControl, FormLabel, Text, NumberInputField, NumberInput,
     NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Checkbox,
-    VStack, Textarea, HStack, FormHelperText, useToast, InputGroup, InputLeftElement,
-    Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton, Box
+    VStack, Textarea, HStack, FormHelperText, useToast,
+    Alert, AlertIcon, AlertTitle, AlertDescription, Box
 } from "@chakra-ui/react";
 import {submitSuggestion} from "./model";
 

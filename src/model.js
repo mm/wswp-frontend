@@ -6,12 +6,60 @@ import fetch from "node-fetch";
 
 const BASE_URL = process.env['REACT_APP_API_URL'];
 
+export class HTTPError extends Error {
+    constructor(message, statusCode) {
+        super(message);
+        this.name = "HTTPError";
+        this.statusCode = statusCode;
+    }
+}
+
+export class ValidationError extends Error {
+    constructor(message, failedValidators) {
+        super(message);
+        this.name = "Validation Error";
+        this.failedValidators = failedValidators;
+    }
+}
+
+
+/**
+ * Fetches a list of games from the backend. If a searchTerm is passed,
+ * will filter games by that criteria instead. Otherwise, will display
+ * all games.
+ * @param {string} searchTerm - The terms to search for games by.
+ * @param {integer} page - The page to get results for.
+ */
+export async function getGames(searchTerm = null, page = 1) {
+
+    let requestUrl = `${BASE_URL}/games?page=${page}`
+    // Modify our request if the intent is to search
+    if (searchTerm && (searchTerm !== "")) {
+        requestUrl = `${BASE_URL}/games/search?query=${searchTerm}&page=${page ? page : 1}`
+    }
+
+    let response = await fetch(requestUrl);
+
+    if (response.status === 200) {
+        let json = await response.json();
+        return json;
+    }
+
+    throw new HTTPError("Issue fetching games", response.status);
+}
+
+
 export async function getRandomGame(numberOfPlayers, freeGamesOnly) {
     let apiResponse = await fetch(`${BASE_URL}/games/random?players=${numberOfPlayers}&free_only=${freeGamesOnly}`, {
         method: 'GET'
     });
-    let jsonResponse = await apiResponse.json();
-    return jsonResponse;
+
+    if (apiResponse.status === 200) {
+        let jsonResponse = await apiResponse.json();
+        return jsonResponse;
+    }
+
+    throw new HTTPError("Issue fetching random game", apiResponse.status);
 }
 
 export async function submitSuggestion(data) {

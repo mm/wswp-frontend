@@ -4,7 +4,9 @@ import SearchBar from "./SearchBar";
 import GameGrid from "./GameGrid";
 import Paginator from "./Paginator";
 import Footer from "./Footer";
+import NoGames from "./NoGames";
 import React, {useState, useEffect} from "react";
+import {HTTPError, getGames} from "./model";
 
 function App() {
 
@@ -23,24 +25,22 @@ function App() {
 	 * @param {*} page 
 	 */
 	function pullData(searchTerm = null, page = 1) {
-		let requestUrl = `${process.env['REACT_APP_API_URL']}/games?page=${page}`
-		if (searchTerm && (searchTerm !== "")) {
-			requestUrl = `${process.env['REACT_APP_API_URL']}/games/search?query=${searchTerm}`
-		}
-		fetch(requestUrl)
-			.then((response) => response.json())
-			.then((rdata) => {
-				console.log(rdata);
-				setGameData(rdata['games']);
-				setPage(rdata['page']);
-				setTotalPages(rdata['total_pages']);
-			});
+		
+		setIsLoading(true);
+		getGames(searchTerm, page).then((rdata) => {
+			setGameData(rdata['games']);
+			setPage(rdata['page']);
+			setTotalPages(rdata['total_pages']);
+		}).catch((error) => {
+			if (error instanceof HTTPError) {
+				console.log(error.statusCode);
+			}
+		}).finally(setIsLoading(false));
 	}
 
 	const handleSearch = () => {
 		// Decides whether to make a request to the API depending
 		// on what was entered in the search bar
-		console.log('Hit handleSearch');
 		if (searchTerm !== null && searchTerm !== "") {
 			pullData(searchTerm, 1)
 		} else if (searchTerm === "") {
@@ -48,16 +48,40 @@ function App() {
 		}
 	}
 
+	const handlePageSwitch = (page) => {
+		// Decides how to make an API request after a page switch
+		// (i.e. do we fetch another page of search-filtered
+		// games or not?)
+		if (searchTerm !== null && searchTerm !== "") {
+			// Fetch filtered data at the new page
+			pullData(searchTerm, page);
+		} else {
+			// Fetch unfiltered data at the new page
+			pullData(null, page)
+		}
+	}
+
 	useEffect(() => {
-		pullData(null, page);
+		pullData(searchTerm, page);
 	}, [page]);
 
 	return (
 		<div>
 			<Header />
 			<SearchBar searchHandler={handleSearch} setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
+			{(!isLoading && gameData.length > 0) ?
+			<>
 			<GameGrid gameData={gameData}/>
-			<Paginator totalPages={totalPages} currentPage={page} pageSetter={setPage}/>
+			<Paginator 
+				totalPages={totalPages}c
+				currentPage={page}
+				pageSwitchHandler={handlePageSwitch}
+			/>
+			</> :
+			<NoGames 
+				reason={searchTerm ? "searchFailed" : "noGames"}
+			/>
+			}
 			<Footer />
 		</div>
 	)

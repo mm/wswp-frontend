@@ -3,7 +3,7 @@ import {
     Box, Flex, Link, Spacer, Badge, Center, IconButton,
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter,
     ModalBody, ModalCloseButton, Button, Heading, useDisclosure,
-    VStack, Text, HStack, Lorem
+    Text, HStack
 } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 

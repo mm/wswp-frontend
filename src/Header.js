@@ -2,8 +2,7 @@ import React from "react";
 
 import { 
     Box, Center, Heading, Text, VStack, HStack,
-    Container, Button, ButtonGroup,
-    useDisclosure
+    Container, Button, useDisclosure
 } from "@chakra-ui/react";
 
 import PickGameModal from "./PickGameModal";

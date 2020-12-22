@@ -1,7 +1,7 @@
 import {React, useState} from "react";
 import { 
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button,
-    Input, FormControl, FormLabel, Text, NumberInputField, NumberInput,
+    FormControl, FormLabel, Text, NumberInputField, NumberInput,
     NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Checkbox, Box
 } from "@chakra-ui/react";
 
@@ -30,7 +30,7 @@ function PickGameModal(props) {
 
     function fetchRandomGame() {
         setIsLoading(true);
-        let response = getRandomGame(numberOfPlayers, freeOnly).then((game) => {
+        getRandomGame(numberOfPlayers, freeOnly).then((game) => {
             let randomGame = game['game'];
             setGame({
                 gameTitle: randomGame['name'],
