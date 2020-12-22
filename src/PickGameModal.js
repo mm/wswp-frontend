@@ -17,7 +17,7 @@ function PickGameModal(props) {
     const { onClose, isOpen } = props;
 
     // Make the modal the source of truth for state (input elements):
-    const [numberOfPlayers, setNumberOfPlayers] = useState(1);
+    const [numberOfPlayers, setNumberOfPlayers] = useState();
     const handlePlayerChange = (event) => setNumberOfPlayers(event.target.value);
     const [freeOnly, setFreeOnly] = useState(false);
     const handleFreeOnlyChange = (event) => setFreeOnly(event.target.checked);
@@ -38,7 +38,8 @@ function PickGameModal(props) {
                 id: randomGame['id'],
                 minPlayers: randomGame['min_players'],
                 maxPlayers: randomGame['max_players'],
-                isFree: !randomGame['paid']
+                isFree: !randomGame['paid'],
+                url: randomGame['url']
             });
             setIsLoading(false);
             setTriedOnce(true);
@@ -85,14 +86,16 @@ function PickGameModal(props) {
                             <Game data={game} />
                         }
                     </Box>
-                    <Button 
+                    {numberOfPlayers &&
+                        <Button 
                         colorScheme="blue"
                         width="full"
                         onClick={fetchRandomGame}
                         isLoading={isLoading}
                         loadingText="Picking a game...">
                         {triedOnce ? "Not feeling this game? Click for a different one!" : "Pick a game"}
-                    </Button>
+                        </Button>
+                    }
                 </ModalBody>
                 <ModalFooter>
                 </ModalFooter>

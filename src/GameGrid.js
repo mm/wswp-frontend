@@ -17,9 +17,11 @@ function GameGrid(props) {
             id: game['id'],
             minPlayers: game['min_players'],
             maxPlayers: game['max_players'],
-            isFree: !game['paid']
+            isFree: !game['paid'],
+            url: game['url'],
+            submittedBy: game['submitted_by']
         })
-    }).map(game => <Game data={game} key={game.id} />);
+    }).map(game => <Game data={game} key={game.id} isOnGrid/>);
 
     return (
         <Container maxWidth="100ch" marginTop={8}>

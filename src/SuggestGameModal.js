@@ -3,7 +3,8 @@ import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button,
     Input, FormControl, FormLabel, Text, NumberInputField, NumberInput,
     NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Checkbox,
-    VStack, Textarea, HStack, FormHelperText, useToast
+    VStack, Textarea, HStack, FormHelperText, useToast, InputGroup, InputLeftElement,
+    Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton, Box
 } from "@chakra-ui/react";
 import {submitSuggestion} from "./model";
 
@@ -21,6 +22,7 @@ function SuggestGameModal(props) {
     const [maxPlayers, setMaxPlayers] = useState("");
     const [isPaid, setIsPaid] = useState(false);
     const [submittedBy, setSubmittedBy] = useState("");
+    const [formSubmissionErrors, setFormSubErrors] = useState();
 
     // All change handlers for the form elements:
     const handleGameNameChange = (event) => setGameName(event.target.value);
@@ -41,8 +43,20 @@ function SuggestGameModal(props) {
                 description: 'Thanks so much!',
                 status: 'success'
             });
+            clearFormData();
             onClose();
         })
+    }
+
+    function clearFormData() {
+        // Clears form data in state after a submission
+        setGameName(null);
+        setGameURL(null);
+        setGameDesc(null);
+        setMinPlayers(null);
+        setMaxPlayers(null);
+        setSubmittedBy(null);
+        setIsPaid(null);
     }
 
     return (
@@ -53,11 +67,19 @@ function SuggestGameModal(props) {
                 <ModalCloseButton />
                 <ModalBody>
                     <Text>
-                    Thanks so much for wanting to submit a game to this site! You're the best ❤️
+                    Thanks so much for wanting to submit a game to this site! ❤️
                     </Text>
                     <Text py={2}>Fill out the quick form below with info about the game, and we'll work to get it in as soon as possible!</Text>
 
-                    <VStack spacing={3}>
+                    <Alert status="error">
+                        <AlertIcon />
+                        <Box flex="1">
+                            <AlertTitle>An error occured during submission</AlertTitle>
+                            <AlertDescription display="block">This would be where to enumerate validation errors</AlertDescription>
+                        </Box>
+                    </Alert>
+
+                    <VStack spacing={3} mt={2}>
                     <FormControl id="gameName" isRequired>
                         <FormLabel>Game Name</FormLabel>
                         <Input name="game_name" value={gameName} placeholder="The name of the game you want to submit" onChange={handleGameNameChange} />
@@ -70,7 +92,7 @@ function SuggestGameModal(props) {
 
                     <FormControl id="description" isRequired>
                         <FormLabel>Description</FormLabel>
-                        <Textarea value={gameDesc} placeholder="A short description of the game you're submitting." name="description" onChange={handleGameDescChange} />
+                        <Textarea value={gameDesc} placeholder="A short description of the game you're submitting (what platforms it's available on, cost, etc.)" name="description" onChange={handleGameDescChange} />
                     </FormControl>
 
                     <FormControl id="is_paid">
@@ -88,7 +110,7 @@ function SuggestGameModal(props) {
                             </NumberInputStepper>
                         </NumberInput>
                         <Text>to</Text>
-                        <NumberInput>
+                        <NumberInput min={0}>
                             <NumberInputField placeholder={4} name="max_players" value={maxPlayers} onChange={handleMaxPlayersChange} />
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
@@ -97,6 +119,9 @@ function SuggestGameModal(props) {
                         </NumberInput>
                         <Text>players</Text>
                         </HStack>
+                        <FormHelperText>
+                            Set the max players to 0 if there's no limit!
+                        </FormHelperText>
                     </FormControl>
 
                     <FormControl id="name">
