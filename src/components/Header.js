@@ -23,7 +23,7 @@ function Header() {
         <>
         <PickGameModal onClose={pickGame.onClose} isOpen={pickGame.isOpen} />
         <SuggestGameModal onClose={suggestGame.onClose} isOpen={suggestGame.isOpen} />
-        <Box bgColor="#9DD1F1" width="100%" padding="4">
+        <Box bgColor="#B8DDF5" width="100%" padding="4">
             <Center>
                 <VStack spacing="1rem" color="#0D2035">
                     <Heading>What should we play?</Heading>
