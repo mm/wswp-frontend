@@ -1,11 +1,10 @@
-import './App.css';
-import Header from "./Header";
-import SearchBar from "./SearchBar";
-import GameGrid from "./GameGrid";
-import Paginator from "./Paginator";
-import Footer from "./Footer";
-import NoGames from "./NoGames";
 import React, {useState, useEffect} from "react";
+import Header from "./components/Header";
+import SearchBar from "./components/SearchBar";
+import GameGrid from "./components/GameGrid";
+import Paginator from "./components/Paginator";
+import Footer from "./components/Footer";
+import NoGames from "./components/NoGames";
 import {HTTPError, getGames} from "./model";
 
 function App() {
@@ -61,9 +60,9 @@ function App() {
 		}
 	}
 
-	useEffect(() => {
+	useEffect((searchTerm, page) => {
 		pullData(searchTerm, page);
-	}, [page]);
+	}, []);
 
 	return (
 		<div>

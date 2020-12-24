@@ -5,7 +5,7 @@ import {
     NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Checkbox, Box
 } from "@chakra-ui/react";
 
-import {getRandomGame} from "./model";
+import {getRandomGame} from "../model";
 import Game from "./Game";
 
 /**

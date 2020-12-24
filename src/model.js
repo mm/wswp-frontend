@@ -1,5 +1,6 @@
 /**
- * Functions for fetching games from the backend.
+ * Functions for fetching games from the backend, and submitting
+ * them to it.
  */
 
 import fetch from "node-fetch";
@@ -49,6 +50,12 @@ export async function getGames(searchTerm = null, page = 1) {
 }
 
 
+/**
+ * Fetches a random game from the game index, given the number of players
+ * and whether the party wants free games only or not.
+ * @param {integer} numberOfPlayers 
+ * @param {bool} freeGamesOnly 
+ */
 export async function getRandomGame(numberOfPlayers, freeGamesOnly) {
     let apiResponse = await fetch(`${BASE_URL}/games/random?players=${numberOfPlayers}&free_only=${freeGamesOnly}`, {
         method: 'GET'
@@ -62,6 +69,12 @@ export async function getRandomGame(numberOfPlayers, freeGamesOnly) {
     throw new HTTPError("Issue fetching random game", apiResponse.status);
 }
 
+
+/**
+ * Submits a game suggestion to the backend. Will throw a ValidationError
+ * in the event any data fails validation checks.
+ * @param {*} data 
+ */
 export async function submitSuggestion(data) {
 
     const postData = {
@@ -81,6 +94,21 @@ export async function submitSuggestion(data) {
         },
         body: JSON.stringify(postData)
     });
+
     let jsonResponse = await apiResponse.json();
-    return jsonResponse;
+
+    if (apiResponse.status === 200) {
+        return jsonResponse;
+    } else if (apiResponse.status === 422) {
+        // Validation error occured server side, pass it off
+        console.log(jsonResponse)
+        throw new ValidationError(
+            "Submission failed some validation checks",
+            jsonResponse['issues']
+        );
+    } else {
+        throw new HTTPError("Could not add submission -- internal server error", apiResponse.status)
+    }
+
+    
 }

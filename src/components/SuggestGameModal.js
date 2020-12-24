@@ -3,10 +3,10 @@ import {
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button,
     Input, FormControl, FormLabel, Text, NumberInputField, NumberInput,
     NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Checkbox,
-    VStack, Textarea, HStack, FormHelperText, useToast,
+    VStack, Textarea, HStack, FormHelperText, useToast, FormErrorMessage,
     Alert, AlertIcon, AlertTitle, AlertDescription, Box
 } from "@chakra-ui/react";
-import {submitSuggestion} from "./model";
+import {submitSuggestion, HTTPError, ValidationError} from "../model";
 
 
 function SuggestGameModal(props) {
@@ -22,7 +22,9 @@ function SuggestGameModal(props) {
     const [maxPlayers, setMaxPlayers] = useState("");
     const [isPaid, setIsPaid] = useState(false);
     const [submittedBy, setSubmittedBy] = useState("");
-    const [formSubmissionErrors, setFormSubErrors] = useState();
+    const [hasErrors, setHasErrors] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [validationErrors, setValidationErrors] = useState({});
 
     // All change handlers for the form elements:
     const handleGameNameChange = (event) => setGameName(event.target.value);
@@ -35,6 +37,9 @@ function SuggestGameModal(props) {
 
     function sendSuggestion() {
         // Collects all data in state and sends it off to the backend
+        setHasErrors(false);
+        setValidationErrors({});
+        setErrorMessage("");
         let data = {gameName, gameURL, gameDesc, minPlayers, maxPlayers, isPaid, submittedBy};
         submitSuggestion(data).then((response) => {
             console.log(response);
@@ -45,18 +50,28 @@ function SuggestGameModal(props) {
             });
             clearFormData();
             onClose();
-        })
+        }).catch((error) => {
+            setHasErrors(true);
+            if (error instanceof ValidationError) {
+                setErrorMessage("Please correct the errors below before continuing.")
+                setValidationErrors(error.failedValidators);
+            } else if (error instanceof HTTPError) {
+                setErrorMessage(`A server error occured: ${error.statusCode}`);
+            } else {
+                setErrorMessage("An unknown error occured during submission.")
+            }
+        });
     }
 
     function clearFormData() {
         // Clears form data in state after a submission
-        setGameName(null);
-        setGameURL(null);
-        setGameDesc(null);
-        setMinPlayers(null);
-        setMaxPlayers(null);
-        setSubmittedBy(null);
-        setIsPaid(null);
+        setGameName('');
+        setGameURL('');
+        setGameDesc('');
+        setMinPlayers('');
+        setMaxPlayers('');
+        setSubmittedBy('');
+        setIsPaid('');
     }
 
     return (
@@ -71,37 +86,42 @@ function SuggestGameModal(props) {
                     </Text>
                     <Text py={2}>Fill out the quick form below with info about the game, and we'll work to get it in as soon as possible!</Text>
 
-                    <Alert status="error">
+                    {hasErrors &&
+                        <Alert status="error">
                         <AlertIcon />
                         <Box flex="1">
                             <AlertTitle>An error occured during submission</AlertTitle>
-                            <AlertDescription display="block">This would be where to enumerate validation errors</AlertDescription>
+                            <AlertDescription display="block">{errorMessage}</AlertDescription>
                         </Box>
-                    </Alert>
+                        </Alert>
+                    }
 
                     <VStack spacing={3} mt={2}>
-                    <FormControl id="gameName" isRequired>
+                    <FormControl id="gameName" isRequired isInvalid={'name' in validationErrors}>
                         <FormLabel>Game Name</FormLabel>
                         <Input name="game_name" value={gameName} placeholder="The name of the game you want to submit" onChange={handleGameNameChange} />
+                        <FormErrorMessage>{validationErrors['name']}</FormErrorMessage>
                     </FormControl>
 
-                    <FormControl id="url" isRequired>
+                    <FormControl id="url" isRequired isInvalid={'url' in validationErrors}>
                         <FormLabel>Website</FormLabel>
                         <Input name="url" value={gameURL} placeholder="https://google.com" onChange={handleGameURLChange} />
+                        <FormErrorMessage>{validationErrors['url']}</FormErrorMessage>
                     </FormControl>
 
-                    <FormControl id="description" isRequired>
+                    <FormControl id="description" isRequired isInvalid={'description' in validationErrors}>
                         <FormLabel>Description</FormLabel>
                         <Textarea value={gameDesc} placeholder="A short description of the game you're submitting (what platforms it's available on, cost, etc.)" name="description" onChange={handleGameDescChange} />
+                        <FormErrorMessage>{validationErrors['description']}</FormErrorMessage>
                     </FormControl>
 
                     <FormControl id="is_paid">
                         <Checkbox value={isPaid} name="is_paid" onChange={handlePaidChange}>This game costs money to play</Checkbox>
                     </FormControl>
 
-                    <FormControl isRequired>
-                        <FormLabel>Number of players</FormLabel>
-                        <HStack>
+                    <HStack spacing={5} alignSelf='start' alignItems="baseline">
+                        <FormControl isRequired isInvalid={'min_players' in validationErrors}>
+                        <FormLabel>Minimum Players</FormLabel>
                         <NumberInput min={1}>
                             <NumberInputField placeholder={1} name="min_players" value={minPlayers} onChange={handleMinPlayersChange} />
                             <NumberInputStepper>
@@ -109,7 +129,10 @@ function SuggestGameModal(props) {
                             <NumberDecrementStepper />
                             </NumberInputStepper>
                         </NumberInput>
-                        <Text>to</Text>
+                        <FormErrorMessage>{validationErrors['min_players']}</FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={'max_players' in validationErrors}>
+                        <FormLabel>Maximum Players</FormLabel>
                         <NumberInput min={0}>
                             <NumberInputField placeholder={4} name="max_players" value={maxPlayers} onChange={handleMaxPlayersChange} />
                             <NumberInputStepper>
@@ -117,12 +140,10 @@ function SuggestGameModal(props) {
                             <NumberDecrementStepper />
                             </NumberInputStepper>
                         </NumberInput>
-                        <Text>players</Text>
-                        </HStack>
-                        <FormHelperText>
-                            Set the max players to 0 if there's no limit!
-                        </FormHelperText>
-                    </FormControl>
+                        <FormErrorMessage>{validationErrors['max_players']}</FormErrorMessage>
+                        <FormHelperText>If there is no maximum, you can leave this blank or put 0</FormHelperText>
+                        </FormControl>
+                    </HStack>
 
                     <FormControl id="name">
                         <FormLabel>Your name</FormLabel>
