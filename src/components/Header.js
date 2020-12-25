@@ -2,8 +2,11 @@ import React from "react";
 
 import { 
     Box, Center, Heading, Text, VStack, HStack,
-    Container, Button, useDisclosure
+    Container, Button, useDisclosure, useColorMode,
+    useColorModeValue, Switch
 } from "@chakra-ui/react";
+
+import {HiOutlineMoon, HiOutlineSun} from "react-icons/hi";
 
 import PickGameModal from "./PickGameModal";
 import SuggestGameModal from "./SuggestGameModal";
@@ -19,16 +22,30 @@ function Header() {
     const pickGame = useDisclosure();
     const suggestGame = useDisclosure();
 
+    const { colorMode, toggleColorMode } = useColorMode();
+    const headerBackgroundColor = useColorModeValue('#B8DDF5', '#2D3748');
+    const headerTextColor = useColorModeValue('#0D2035', "#ffffff");
+
     return (
         <>
         <PickGameModal onClose={pickGame.onClose} isOpen={pickGame.isOpen} />
         <SuggestGameModal onClose={suggestGame.onClose} isOpen={suggestGame.isOpen} />
-        <Box bgColor="#B8DDF5" width="100%" padding="4">
+        <Box bgColor={headerBackgroundColor} width="100%" padding="4" align="right">
+            <HStack display={{base: "none", md: "flex"}}>
+            <HiOutlineSun />
+            <Switch 
+                size="sm" 
+                isChecked={colorMode === 'dark'}
+                onChange={toggleColorMode}
+                colorScheme="purple"
+            />
+            <HiOutlineMoon />
+            </HStack>
             <Center>
-                <VStack spacing="1rem" color="#0D2035">
+                <VStack spacing="1rem" color={headerTextColor}>
                     <Heading>What should we play?</Heading>
                     <Container>
-                    <Text>
+                    <Text align="center">
                         While we're social distancing or on lockdown due to COVID-19, playing games online together
                         can be a great way to feel connected. With so many games available online, it can be hard to
                         keep track! I built this little site to recommend games for your next online gathering and
