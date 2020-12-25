@@ -75,7 +75,7 @@ function SuggestGameModal(props) {
     }
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size="lg" scrollBehavior="inside">
+        <Modal isOpen={isOpen} onClose={onClose} size="lg">
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>Submit a game to the index</ModalHeader>
@@ -154,15 +154,9 @@ function SuggestGameModal(props) {
                     </FormControl>
                     </VStack>
 
+                    <Button colorScheme="blue" width="full" onClick={sendSuggestion} mt={4}>Submit game</Button>
                 </ModalBody>
                 <ModalFooter>
-                <Button 
-                    colorScheme="blue"
-                    width="full"
-                    onClick={sendSuggestion}
-                >
-                    Submit game
-                </Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>
