@@ -47,7 +47,7 @@ function PickGameModal(props) {
     }
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <Modal isOpen={isOpen} onClose={onClose} size="lg" scrollBehavior="inside">
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>Pick a game for me</ModalHeader>

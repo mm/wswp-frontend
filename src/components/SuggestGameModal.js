@@ -75,7 +75,7 @@ function SuggestGameModal(props) {
     }
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <Modal isOpen={isOpen} onClose={onClose} size="lg" scrollBehavior="inside">
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>Submit a game to the index</ModalHeader>
@@ -146,7 +146,7 @@ function SuggestGameModal(props) {
                     </HStack>
 
                     <FormControl id="name">
-                        <FormLabel>Your name</FormLabel>
+                        <FormLabel>Your name (optional)</FormLabel>
                         <Input name="name" value={submittedBy} onChange={handleSubmittedByChange} />
                         <FormHelperText>
                             If you want a name to show as the one who submitted this game, enter it here. Otherwise you can leave this blank!
