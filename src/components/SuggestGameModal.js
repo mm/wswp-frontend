@@ -30,8 +30,8 @@ function SuggestGameModal(props) {
     const handleGameNameChange = (event) => setGameName(event.target.value);
     const handleGameURLChange = (event) => setGameURL(event.target.value);
     const handleGameDescChange = (event) => setGameDesc(event.target.value);
-    const handleMinPlayersChange = (event) => setMinPlayers(event.target.value);
-    const handleMaxPlayersChange = (event) => setMaxPlayers(event.target.value);
+    const handleMinPlayersChange = (value) => setMinPlayers(value);
+    const handleMaxPlayersChange = (value) => setMaxPlayers(value);
     const handleSubmittedByChange = (event) => setSubmittedBy(event.target.value);
     const handlePaidChange = (event) => setIsPaid(event.target.checked);
 
@@ -122,8 +122,8 @@ function SuggestGameModal(props) {
                     <HStack spacing={5} alignSelf='start' alignItems="baseline">
                         <FormControl isRequired isInvalid={'min_players' in validationErrors}>
                         <FormLabel>Minimum Players</FormLabel>
-                        <NumberInput min={1}>
-                            <NumberInputField placeholder={1} name="min_players" value={minPlayers} onChange={handleMinPlayersChange} />
+                        <NumberInput min={1} value={minPlayers} onChange={handleMinPlayersChange}>
+                            <NumberInputField placeholder={1} name="min_players" />
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
                             <NumberDecrementStepper />
@@ -133,8 +133,8 @@ function SuggestGameModal(props) {
                         </FormControl>
                         <FormControl isInvalid={'max_players' in validationErrors}>
                         <FormLabel>Maximum Players</FormLabel>
-                        <NumberInput min={0}>
-                            <NumberInputField placeholder={4} name="max_players" value={maxPlayers} onChange={handleMaxPlayersChange} />
+                        <NumberInput min={0} value={maxPlayers} onChange={handleMaxPlayersChange}>
+                            <NumberInputField placeholder={4} name="max_players" />
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
                             <NumberDecrementStepper />

@@ -18,7 +18,7 @@ function PickGameModal(props) {
 
     // Make the modal the source of truth for state (input elements):
     const [numberOfPlayers, setNumberOfPlayers] = useState();
-    const handlePlayerChange = (event) => setNumberOfPlayers(event.target.value);
+    const handlePlayerChange = (value) => setNumberOfPlayers(value);
     const [freeOnly, setFreeOnly] = useState(false);
     const handleFreeOnlyChange = (event) => setFreeOnly(event.target.checked);
 
@@ -63,8 +63,10 @@ function PickGameModal(props) {
                         <NumberInput 
                             min={1}
                             max={100}
+                            value={numberOfPlayers}
+                            onChange={handlePlayerChange}
                         >
-                            <NumberInputField name="numberOfPlayers" value={numberOfPlayers} onChange={handlePlayerChange} placeholder="A number from 1 to 100"/>
+                            <NumberInputField name="numberOfPlayers" placeholder="A number from 1 to 100"/>
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
                                 <NumberDecrementStepper />
