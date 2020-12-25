@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import {Box} from "@chakra-ui/react";
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
 import GameGrid from "./components/GameGrid";
@@ -30,6 +31,7 @@ function App() {
 			setGameData(rdata['games']);
 			setPage(rdata['page']);
 			setTotalPages(rdata['total_pages']);
+			setIsLoading(false);
 		}).catch((error) => {
 			if (error instanceof HTTPError) {
 				console.log(error.statusCode);
@@ -68,18 +70,25 @@ function App() {
 		<div>
 			<Header />
 			<SearchBar searchHandler={handleSearch} setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
-			{(!isLoading && gameData.length > 0) ?
-			<>
-			<GameGrid gameData={gameData}/>
-			<Paginator 
-				totalPages={totalPages}c
-				currentPage={page}
-				pageSwitchHandler={handlePageSwitch}
-			/>
-			</> :
-			<NoGames 
-				reason={searchTerm ? "searchFailed" : "noGames"}
-			/>
+			{(!isLoading) ?
+
+				(gameData.length > 0 ?
+					<>
+					<GameGrid gameData={gameData}/>
+					<Paginator 
+						totalPages={totalPages}
+						currentPage={page}
+						pageSwitchHandler={handlePageSwitch}
+					/>
+					</>
+					:
+					<NoGames 
+						reason={searchTerm ? "searchFailed" : "noGames"}
+					/>
+				) :
+				<Box maxW="lg" mx="auto" display="block" align="center" my={10}>
+					Loading games...
+				</Box>
 			}
 			<Footer />
 		</div>
