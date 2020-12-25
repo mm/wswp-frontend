@@ -30,7 +30,7 @@ function Header() {
         <>
         <PickGameModal onClose={pickGame.onClose} isOpen={pickGame.isOpen} />
         <SuggestGameModal onClose={suggestGame.onClose} isOpen={suggestGame.isOpen} />
-        <Box bgColor={headerBackgroundColor} width="100%" padding="4" align="right">
+        <Box bgColor={headerBackgroundColor} width="100%" padding="4">
             <HStack display={{base: "none", md: "flex"}}>
             <HiOutlineSun />
             <Switch 
@@ -52,7 +52,7 @@ function Header() {
                         provide an index to discover new ones.
                     </Text>
                     </Container>
-                    <HStack>
+                    <HStack mt={4}>
                         <Button colorScheme="blue" onClick={pickGame.onOpen}>Pick a game for me</Button>
                         <Button colorScheme="blue" onClick={suggestGame.onOpen}>Suggest a game</Button>
                     </HStack>
