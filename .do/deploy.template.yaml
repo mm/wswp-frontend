@@ -9,6 +9,5 @@ spec:
       envs:
         - key: REACT_APP_API_URL
           scope: BUILD_TIME
-          value: ${APP_URL}/api/v1
       routes:
         - path: /

@@ -18,7 +18,7 @@ Alternatively, you can fork this repo to your own GitHub account and deploy it a
 
 1. Go to your backend app deployment in your DigitalOcean App Platform account.
 
-2. Click on "Components", and then "+ Create Component" (Static Site). Select your forked front-end repository. You'll need to set your `REACT_APP_API_URL` to `${APP_URL}/api/v1`. 
+2. Click on "Components", and then "+ Create Component" (Static Site). Select your forked front-end repository. You'll need to set your `REACT_APP_API_URL` to `${APP_URL}/api/v1`. Go ahead and also change your HTTP Routes from `/wswp-frontend` (or whatever is auto-populated) to `/`.
 
 3. Deploy and let it build ☺️
 
