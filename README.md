@@ -2,7 +2,7 @@
 
 [![Deploy to DO](https://mp-assets1.sfo2.digitaloceanspaces.com/deploy-to-do/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/mm/wswp-frontend/tree/main)
 
-This repo serves as the front-end for [What Should We Play?](https://github.com/mm/wswp), a project I built for the [DigitalOcean App Platform Hackathon](https://dev.to/devteam/announcing-the-digitalocean-app-platform-hackathon-on-dev-2i1k). You can read over there about my motivation for starting the project and how to get started with setting up a dev environment!
+This repo serves as the front-end for [What Should We Play?](https://github.com/mm/wswp), a project I built for the [DigitalOcean App Platform Hackathon](https://dev.to/devteam/announcing-the-digitalocean-app-platform-hackathon-on-dev-2i1k). You can read over there about my motivation for starting the project and how to get started with setting up a dev environment! You can also see my [original hackathon submission post here](https://dev.to/mmascioni/what-should-we-play-a-do-hackathon-submission-36k1).
 
 **Note:** If you're using the Deploy to DigitalOcean button, please see the [Deploying to DigitalOcean](#-deploying-to-digitalocean) for details.
 
