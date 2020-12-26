@@ -11,3 +11,4 @@ spec:
           scope: BUILD_TIME
       routes:
         - path: /
+      build_command: yarn build
