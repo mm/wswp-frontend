@@ -18,4 +18,6 @@ Before building and running this on your local computer, please make sure you go
     REACT_APP_API_URL=http://localhost:8000/v1
     ```
 
-3. In the project root, run `yarn start`. Assuming all dependencies install properly, you're good to go!
+3. In the project root, run `yarn` and let dependencies install (you only need to do this once)
+
+4. In the project root, run `yarn start` to start the development server and you're good to go!
