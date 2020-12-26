@@ -71,7 +71,7 @@ function SuggestGameModal(props) {
         setMinPlayers('');
         setMaxPlayers('');
         setSubmittedBy('');
-        setIsPaid('');
+        setIsPaid(false);
     }
 
     return (
