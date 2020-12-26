@@ -12,7 +12,7 @@ The front-end for this project was built in [React](https://reactjs.org) (using 
 
 Before building and running this on your local computer, please make sure you go through the [back-end setup](https://github.com/mm/wswp) described in the README there because this depends on that!
 
-## 🔨 Building the frontend locally
+## 🔨 Building the front-end locally
 
 1. Clone this repo to your computer: `git clone https://github.com/mm/wswp-frontend`
 
@@ -28,7 +28,7 @@ Before building and running this on your local computer, please make sure you go
 
 ## 🚀 Deploying to DigitalOcean
 
-If you use the "Deploy to DigitalOcean" button in this README, only the front-end will be deployed. This is due to a current limitation with the button where combining static sites and services isn't possible yet. Make sure the back-end has been deployed to DO first (by using the button [here](https://github.com/mm/wswp)), and make note of the backend's app URL. When deploying this frontend, you'll be asked for a `REACT_APP_API_URL`. This is `https://your-app-slug.ondigitalocean.app/api/v1` once it has been deployed.
+If you use the "Deploy to DigitalOcean" button in this README, only the front-end will be deployed. This is due to a current limitation with the button where combining static sites and services isn't possible yet. Make sure the back-end has been deployed to DO first (by using the button [here](https://github.com/mm/wswp)), and make note of the backend's app URL. When deploying this front-end, you'll be asked for a `REACT_APP_API_URL`. This is `https://your-app-slug.ondigitalocean.app/api/v1` once it has been deployed.
 
 Alternatively, you can fork this repo to your own GitHub account and deploy it as a static site component of the backend once that's been deployed to DO! To do this:
 
