@@ -46,6 +46,7 @@ function PickGameModal(props) {
                 url: randomGame['url']
             });
             setTriedOnce(true);
+            setHasErrors(false);
         }).catch((error) => {
             setHasErrors(true);
             if (error instanceof HTTPError) {
