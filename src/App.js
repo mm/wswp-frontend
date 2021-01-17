@@ -34,7 +34,7 @@ function App() {
 			setIsLoading(false);
 		}).catch((error) => {
 			if (error instanceof HTTPError) {
-				console.log(error.statusCode);
+				setGameData([]);
 			}
 		}).finally(setIsLoading(false));
 	}
