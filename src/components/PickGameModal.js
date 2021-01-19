@@ -2,10 +2,11 @@ import {React, useState} from "react";
 import { 
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button,
     FormControl, FormLabel, Text, NumberInputField, NumberInput,
-    NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Checkbox, Box
+    NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Checkbox, Box,
+    Alert, AlertIcon, AlertDescription
 } from "@chakra-ui/react";
 
-import {getRandomGame} from "../model";
+import {getRandomGame, HTTPError} from "../model";
 import Game from "./Game";
 
 /**
@@ -27,6 +28,9 @@ function PickGameModal(props) {
     const [game, setGame] = useState({});
     // For detecting if someone's asked for a random game already:
     const [triedOnce, setTriedOnce] = useState(false);
+    // For detecting any server errors:
+    const [hasErrors, setHasErrors] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
 
     function fetchRandomGame() {
         setIsLoading(true);
@@ -41,9 +45,14 @@ function PickGameModal(props) {
                 isFree: !randomGame['paid'],
                 url: randomGame['url']
             });
-            setIsLoading(false);
             setTriedOnce(true);
-        });
+            setHasErrors(false);
+        }).catch((error) => {
+            setHasErrors(true);
+            if (error instanceof HTTPError) {
+                setErrorMessage(`An error occured while communicating with the server: ${error.statusCode}`);
+            }
+        }).finally(() => setIsLoading(false));
     }
 
     return (
@@ -52,6 +61,12 @@ function PickGameModal(props) {
             <ModalContent>
                 <ModalHeader>Pick a game for me</ModalHeader>
                 <ModalCloseButton />
+                {hasErrors &&
+                    <Alert status="error">
+                        <AlertIcon />
+                        <AlertDescription>{errorMessage}</AlertDescription>
+                    </Alert>
+                }
                 <ModalBody>
                     <Text>
                     Having trouble picking a game? We'll pick one for you! Just let us know the number of players
