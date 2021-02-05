@@ -25,18 +25,16 @@ function App() {
 	 * @param {*} page 
 	 */
 	function pullData(searchTerm = null, page = 1) {
-		
 		setIsLoading(true);
 		getGames(searchTerm, page).then((rdata) => {
 			setGameData(rdata['games']);
 			setPage(rdata['page']);
 			setTotalPages(rdata['total_pages']);
-			setIsLoading(false);
 		}).catch((error) => {
 			if (error instanceof HTTPError) {
 				setGameData([]);
 			}
-		}).finally(setIsLoading(false));
+		}).finally(() => { setIsLoading(false); });
 	}
 
 	const handleSearch = () => {
@@ -70,25 +68,19 @@ function App() {
 		<div>
 			<Header />
 			<SearchBar searchHandler={handleSearch} setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
-			{(!isLoading) ?
-
-				(gameData.length > 0 ?
+			{
+				(isLoading) ? <Box maxW="lg" mx="auto" display="block" align="center" my={10}>Loading games...</Box>
+				:
+					(gameData.length > 0) ?
 					<>
-					<GameGrid gameData={gameData}/>
-					<Paginator 
-						totalPages={totalPages}
-						currentPage={page}
-						pageSwitchHandler={handlePageSwitch}
-					/>
+						<GameGrid gameData={gameData}/>
+						<Paginator 
+							totalPages={totalPages}
+							currentPage={page}
+							pageSwitchHandler={handlePageSwitch}
+						/>
 					</>
-					:
-					<NoGames 
-						reason={searchTerm ? "searchFailed" : "noGames"}
-					/>
-				) :
-				<Box maxW="lg" mx="auto" display="block" align="center" my={10}>
-					Loading games...
-				</Box>
+					: <NoGames reason={searchTerm ? "searchFailed" : "noGames"}/>
 			}
 			<Footer />
 		</div>
